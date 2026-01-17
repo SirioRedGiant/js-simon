@@ -25,3 +25,22 @@ for (let i = 0; i < numberToGuess.length; i++) {
   listEl.innerHTML += `<li>${numberToGuess[i]}</li>`;
 }
 
+//! Timer ai numeri generati
+
+let seconds = 3;
+countdownEl.innerHTML = seconds;
+console.log(countdownEl);
+
+const timer = setInterval(function () {
+  seconds -= 1;
+  countdownEl.innerHTML = seconds;
+  
+  if (seconds === 0) {
+    clearInterval(timer);
+    formEl.classList.remove("d-none"); //note rimuovo da index.html la classe ["d-none"=>(di)"answer-form"] di Bootstrap a 0 sec in modo tale che il form dei quadratini in cui scrivere, che era nascosta, appaia
+    listEl.classList.add("d-none"); //note aggiungo a index.html la classe ["d-none"=>(di)"numbers-list"] per fare in modo che i 5 numeri generati da memorizzare scompaiano una volta che il tempo è scaduto 
+
+  }
+}, 1000);
+
+
