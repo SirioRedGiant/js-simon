@@ -1,4 +1,4 @@
-// Elementi richiamati tramite una variabile
+//! Elementi richiamati tramite una variabile
 const countdownEl = document.getElementById("countdown");
 const listEl = document.getElementById("numbers-list");
 const formEl = document.getElementById("answer-form");
@@ -6,3 +6,22 @@ const inputs = document.getElementsByTagName("input"); //note  dice al browser: 
 console.log(inputs);
 
 const messageEl = document.getElementById("message");
+
+//! Generazione numeri randomici
+
+// let n= Math.floor(Math.random() * (max - min + 1)) + min ===>//note  espressione per generare un numero intero random tra un mi e un max. Se si toglie ".floor" saranno compresi anche i decimali
+const numberToGuess = [];
+
+while (numberToGuess.length < 5) {
+  let randomNumber = Math.floor(Math.random() * 50) + 1;
+  if (!numberToGuess.includes(randomNumber)) {
+    numberToGuess.push(randomNumber);
+  }
+}
+
+console.log("Numeri generati da indovinare: " + numberToGuess);
+
+for (let i = 0; i < numberToGuess.length; i++) {
+  listEl.innerHTML += `<li>${numberToGuess[i]}</li>`;
+}
+
