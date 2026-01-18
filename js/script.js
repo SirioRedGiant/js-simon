@@ -1,7 +1,7 @@
 //! Elementi richiamati tramite una variabile
 const countdownEl = document.getElementById("countdown");
 const listEl = document.getElementById("numbers-list");
-const formEl = document.getElementById("answer-form");
+const formEl = document.getElementById("answers-form");
 const inputs = document.getElementsByTagName("input"); //note  dice al browser: "vai nel documento e prendi tutti gli elementi che hanno il tag <input>". Non restituisce un singolo elemento ma una collezione simile ad un array. Ci si può ciclare perchè si può accedere ai singoli input con le quadre e sapere quanti elementi contiene(inputs.lenght), ma non accetta altri metodi come .filter, però se si inserisce un altro input si aggiorna direttamente quindi non è statico come un array
 console.log(inputs);
 
@@ -29,18 +29,48 @@ for (let i = 0; i < numberToGuess.length; i++) {
 
 let seconds = 3;
 countdownEl.innerHTML = seconds;
-console.log(countdownEl);
+
 
 const timer = setInterval(function () {
   seconds -= 1;
   countdownEl.innerHTML = seconds;
-  
+
   if (seconds === 0) {
     clearInterval(timer);
     formEl.classList.remove("d-none"); //note rimuovo da index.html la classe ["d-none"=>(di)"answer-form"] di Bootstrap a 0 sec in modo tale che il form dei quadratini in cui scrivere, che era nascosta, appaia
-    listEl.classList.add("d-none"); //note aggiungo a index.html la classe ["d-none"=>(di)"numbers-list"] per fare in modo che i 5 numeri generati da memorizzare scompaiano una volta che il tempo è scaduto 
-
+    listEl.classList.add("d-none"); //note aggiungo a index.html la classe ["d-none"=>(di)"numbers-list"] per fare in modo che i 5 numeri generati da memorizzare scompaiano una volta che il tempo è scaduto
   }
 }, 1000);
 
+//! Controllo input utente
 
+formEl.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const userNumbers = [];
+  const guessedNumbers = [];
+
+  for (let i = 0; i < inputs.length; i++) {
+    userNumbers.push(parseInt(inputs[i].value));
+  }
+  console.log(`i numeri inseriti dall'utente sono : ${userNumbers}`);
+
+  // Confronto degli input utente con i numeri generati random(numberToGuess)
+  for (let i = 0; i < userNumbers.length; i++) {
+    //fixed Il numero è tra quelli da indovinare?
+    if (numberToGuess.includes(userNumbers[i])) {
+      //fixed è già aggiunto alla lista di quelli indovinati?
+      if (!guessedNumbers.includes(userNumbers[i])) {
+        guessedNumbers.push(userNumbers[i]);
+        console.log(userNumbers[i] + "è presente");
+      } else {
+        //note questo else si riferisce al if dei duplicati
+        console.log(`${userNumbers[i]} già presente`);
+      }
+    } else {
+      //note questo else si riferisce al primo if
+      console.log(`${userNumbers} non hai indovinato`);
+    }
+  }
+  messageEl.innerHTML = `Hai indovinato ${guessedNumbers.length} numeri`;
+});
