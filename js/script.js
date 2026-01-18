@@ -30,7 +30,6 @@ for (let i = 0; i < numberToGuess.length; i++) {
 let seconds = 3;
 countdownEl.innerHTML = seconds;
 
-
 const timer = setInterval(function () {
   seconds -= 1;
   countdownEl.innerHTML = seconds;
@@ -45,32 +44,31 @@ const timer = setInterval(function () {
 //! Controllo input utente
 
 formEl.addEventListener("submit", function (event) {
-  event.preventDefault();//note impedisce al browser di ricaricare la pagina quando si premi invia(comportamento standard dei form HTML). Senza si perderebbero i dati e il risultato sparisce subito
+  event.preventDefault(); //note impedisce al browser di ricaricare la pagina quando si premi invia(comportamento standard dei form HTML). Senza si perderebbero i dati e il risultato sparisce subito
 
-  
   const guessedNumbers = [];
 
   for (let i = 0; i < inputs.length; i++) {
-    const userNumbers = parseInt(inputs[i].value);
-  }
-  console.log(`i numeri inseriti dall'utente sono : ${userNumbers}`);
+    const userValue = parseInt(inputs[i].value);
 
-  // Confronto degli input utente con i numeri generati random(numberToGuess)
-  for (let i = 0; i < userNumbers.length; i++) {
-    //fixed Il numero è tra quelli da indovinare?
-    if (numberToGuess.includes(userNumbers[i])) {
-      //fixed è già aggiunto alla lista di quelli indovinati?
-      if (!guessedNumbers.includes(userNumbers[i])) {
-        guessedNumbers.push(userNumbers[i]);
-        console.log(userNumbers[i] + "è presente");
-      } else {
-        //note questo else si riferisce al if dei duplicati
-        console.log(`${userNumbers[i]} già presente`);
-      }
-    } else {
-      //note questo else si riferisce al primo if
-      console.log(`${userNumbers} non hai indovinato`);
+    console.log(`i numeri inseriti dall'utente sono : ${userValue}`);
+
+    //fixed  Miglioramento logica per evitare if annidati: sei il numero inserito dall'utente è tra quelli da indovinare e "!" non è già stato messo tra i numeri indovinati allora aggiungilo alla lista dei numeri indovinati
+    if (
+      numberToGuess.includes(userValue) &&
+      !guessedNumbers.includes(userValue)
+    ) {
+      guessedNumbers.push(userValue);
     }
   }
-  messageEl.innerHTML = `Hai indovinato ${guessedNumbers.length} numeri`;
+
+  //! Risultati e visualizzazione per l'utente
+
+  if (guessedNumbers.length > 0) {
+    messageEl.classList.replace("text-danger", "text-success");
+    messageEl.innerHTML = `Bravo hai indovinato ${guessedNumbers.length} numeri!`;
+  } else {
+    messageEl.classList.replace("text-success", "text-danger");
+    messageEl.innerHTML = `Non hai indovinato neanche un numero. Riprova!`;
+  }
 });
