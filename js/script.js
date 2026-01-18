@@ -47,6 +47,7 @@ formEl.addEventListener("submit", function (event) {
   event.preventDefault(); //note impedisce al browser di ricaricare la pagina quando si premi invia(comportamento standard dei form HTML). Senza si perderebbero i dati e il risultato sparisce subito
 
   const guessedNumbers = [];
+  const chosedValues = [];
 
   for (let i = 0; i < inputs.length; i++) {
     const userValue = parseInt(inputs[i].value);
@@ -56,10 +57,11 @@ formEl.addEventListener("submit", function (event) {
     //fixed  Miglioramento logica per evitare if annidati: sei il numero inserito dall'utente è tra quelli da indovinare e "!" non è già stato messo tra i numeri indovinati allora aggiungilo alla lista dei numeri indovinati
     if (
       numberToGuess.includes(userValue) &&
-      !guessedNumbers.includes(userValue)
+      !chosedValues.includes(userValue)
     ) {
       guessedNumbers.push(userValue);
     }
+    chosedValues.push(userValue); //note per tenere traccia degli input dell'utente...altrimenti può barare
   }
 
   //! Risultati e visualizzazione per l'utente
