@@ -9,7 +9,7 @@ const messageEl = document.getElementById("message");
 
 //! Generazione numeri randomici
 
-// let n= Math.floor(Math.random() * (max - min + 1)) + min ===>//note  espressione per generare un numero intero random tra un mi e un max. Se si toglie ".floor" saranno compresi anche i decimali
+// let n= Math.floor(Math.random() * (max - min + 1)) + min ===>//note  espressione per generare un numero intero random tra un min e un max. Se si toglie ".floor" saranno compresi anche i decimali
 const numberToGuess = [];
 
 while (numberToGuess.length < 5) {
@@ -45,13 +45,13 @@ const timer = setInterval(function () {
 //! Controllo input utente
 
 formEl.addEventListener("submit", function (event) {
-  event.preventDefault();
+  event.preventDefault();//note impedisce al browser di ricaricare la pagina quando si premi invia(comportamento standard dei form HTML). Senza si perderebbero i dati e il risultato sparisce subito
 
-  const userNumbers = [];
+  
   const guessedNumbers = [];
 
   for (let i = 0; i < inputs.length; i++) {
-    userNumbers.push(parseInt(inputs[i].value));
+    const userNumbers = parseInt(inputs[i].value);
   }
   console.log(`i numeri inseriti dall'utente sono : ${userNumbers}`);
 
